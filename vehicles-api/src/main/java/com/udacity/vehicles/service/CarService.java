@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -78,6 +79,7 @@ public class CarService {
          * Note: The car class file uses @transient, meaning you will need to call
          *   the pricing service each time to get the price.
          */
+
         Price price = restTemplate.getForObject(pricingEndpoint + "/prices/" + id, Price.class);
         car.setPrice(price.getPrice().toString());
 

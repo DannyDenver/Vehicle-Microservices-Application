@@ -26,7 +26,6 @@ import org.springframework.web.reactive.function.client.WebClient;
  * and launches web clients to communicate with maps and pricing.
  */
 @SpringBootApplication
-@EnableJpaAuditing
 @EnableEurekaClient
 public class VehiclesApiApplication {
 
@@ -98,6 +97,4 @@ public class VehiclesApiApplication {
     public WebClient webClientPricing(@Value("${pricing.endpoint}") String endpoint) {
         return WebClient.create(endpoint);
     }
-
-
 }
