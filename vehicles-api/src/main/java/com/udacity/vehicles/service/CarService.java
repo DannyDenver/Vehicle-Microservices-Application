@@ -30,8 +30,8 @@ import reactor.core.publisher.Mono;
  */
 @Service
 public class CarService {
-    @Autowired
-    RestTemplate restTemplate;
+//    @Autowired
+//    RestTemplate restTemplate;
 
     private final CarRepository repository;
     private PriceClient webClientPricing;
@@ -80,8 +80,8 @@ public class CarService {
          *   the pricing service each time to get the price.
          */
 
-        Price price = restTemplate.getForObject(pricingEndpoint + "/prices/" + id, Price.class);
-        car.setPrice(price.getPrice().toString());
+        String price = webClientPricing.getPrice(id);
+        //car.setPrice(price.getPrice().toString());
 
         /**
          * TODO: Use the Maps Web client you create in `VehiclesApiApplication`
@@ -139,9 +139,9 @@ public class CarService {
         repository.delete(car);
     }
 
-    @Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+//    @Bean
+//    @LoadBalanced
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
 }

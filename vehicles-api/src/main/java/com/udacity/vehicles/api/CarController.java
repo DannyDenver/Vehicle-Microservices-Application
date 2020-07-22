@@ -14,8 +14,12 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,9 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/cars")
 class CarController {
+
+    @Autowired
+    RestTemplate restTemplate;
 
     private final CarService carService;
     private final CarResourceAssembler assembler;
@@ -67,6 +74,10 @@ class CarController {
          *   Update the first line as part of the above implementing.
          */
         Car car = carService.findById(id);
+        String response = restTemplate.exchange("http://pricing-service/prices/{id}",
+                HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, 1).getBody();
+
+        System.out.println(car);
 
         return assembler.toResource(car);
     }
@@ -119,5 +130,11 @@ class CarController {
         carService.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

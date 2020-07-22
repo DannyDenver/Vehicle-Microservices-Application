@@ -1,4 +1,4 @@
-package com.udacity.pricing.entity;
+package com.udacity.pricing.domain.price;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,21 +8,19 @@ import java.math.BigDecimal;
 
 @Entity
 public class Price {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long vehicleId;
     private String currency;
     private BigDecimal price;
-    private Long vehicleId;
 
     public Price() {
     }
 
-    public Price(String currency, BigDecimal price, Long vehicleId) {
+    Price(String currency, BigDecimal price) {
         this.currency = currency;
         this.price = price;
-        this.vehicleId = vehicleId;
     }
 
     public String getCurrency() {
